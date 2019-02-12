@@ -13,6 +13,11 @@ import './lib/mui/css/mui.min.css'
 //引入mui字体图标扩展样式文件
 import './lib/mui/css/icons-extra.css'
 
+//下载并导入 vue-resource 包 , 使用 $http 发送请求,向后台获取数据
+import VueRouter from 'vue-resource'
+//注册
+Vue.use(VueRouter)
+
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */
