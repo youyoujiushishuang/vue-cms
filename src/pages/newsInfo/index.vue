@@ -8,7 +8,7 @@
         <hr>
         <div class="news-content" v-html="newsInfo.content"></div>
 
-        <comment></comment>
+        <comment :artid="id"></comment>
     </div>
     
 </template>
