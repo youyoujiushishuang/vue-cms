@@ -1,5 +1,5 @@
 <template>
-    <div class="news-container">
+    <div class="newslist-container">
         <ul class="mui-table-view">
             <li class="mui-table-view-cell mui-media" v-for="item in newslist" :key="item.id">
                 <a href="javascript:;">
@@ -25,11 +25,11 @@ export default {
         }
     },
     created() {
-        
+        this.getNewsList()
     },
     methods:{
         getNewsList(){
-            this.$http.get('/api/getNewsList').then(result=>{
+            this.$http.get('api/getnewslist').then(result=>{
                 this.newslist = result.body.message
             })
         }
@@ -38,5 +38,23 @@ export default {
 </script>
 
 <style lang="less" scoped>
+    .newslist-container{
+        padding: 0 4px;
+        .mui-table-view{
+            li{
+                .mui-media-body{
+                    h1{
+                        font-size: 14px;
+                    }
+                    .mui-ellipsis{
+                        font-size: 13px;
+                        color:#226aff;
+                        display: flex;
+                        justify-content: space-between;
+                    }
 
+                }
+            }
+        }
+    }
 </style>
