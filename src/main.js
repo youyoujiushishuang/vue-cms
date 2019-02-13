@@ -29,7 +29,7 @@ Vue.config.productionTip = false
 import moment from 'moment'
 // Vue.filter('过滤器名称',function(管道符左边的数据){})
 Vue.filter('dateFormat',function(date){
-  return moment(date).format("YYYY-MM-DD HH-mm-ss")
+  return moment(date).format("YYYY-MM-DD HH:mm:ss")
 })
 
 //注册全局组件,注册后,该组件可以使用标签形式展示在页面上

@@ -27,7 +27,6 @@ export default {
     methods:{
         getNewsInfo(){
             this.$http.get('api/getnew/'+this.id).then(result=>{
-                console.log(result.body.message[0]);
                 this.newsInfo = result.body.message[0]
             })
         }
