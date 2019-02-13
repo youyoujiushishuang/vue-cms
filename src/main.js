@@ -25,6 +25,13 @@ Vue.http.options.root = 'http://www.lovegf.cn:8899'
 
 Vue.config.productionTip = false
 
+//设置全局过滤器,格式化时间
+import moment from 'moment'
+// Vue.filter('过滤器名称',function(管道符左边的数据){})
+Vue.filter('dataFormat',function(date){
+  return moment(date).format("YYYY-MM-DD HH-mm-ss")
+})
+
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
