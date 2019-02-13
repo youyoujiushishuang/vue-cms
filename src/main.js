@@ -20,6 +20,8 @@ import './lib/mui/css/icons-extra.css'
 import VueRouter from 'vue-resource'
 //注册
 Vue.use(VueRouter)
+//设置全局请求根路径
+Vue.http.options.root = 'http://www.lovegf.cn:8899'
 
 Vue.config.productionTip = false
 

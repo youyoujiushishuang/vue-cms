@@ -3,7 +3,9 @@
     <!-- 头部  -->
     <mt-header fixed title="黑马程序员"></mt-header>
     <!-- 页面组件 -->
-    <router-view/>
+    <transition>
+			<router-view></router-view>
+		</transition>
     <!-- 底部tabbar 使用的是MUI 中的组件,需要引入MUI中的css样式文件-->
     <nav class="mui-bar mui-bar-tab">
       <!-- 将此处的a标签改造成 router-link标签,路由链接,优点是点击当前连接自动添加高亮类名 router-link-active -->
@@ -31,14 +33,31 @@
 </template>
 
 <script>
-export default {
-  name: 'App'
-}
+	export default {
+		name: 'App'
+	}
 </script>
 
 <style>
-#app {
-  margin-top: 40px;
-  margin-bottom: 60px;
-}
+	#app {
+		margin-top: 40px;
+		margin-bottom: 50px;
+		/* overflow-x: hidden;是为了解决组件切换时有横向滚动条的问题,动画时,两个组件都存在在页面上 */
+		overflow-x: hidden;
+	}
+	.v-enter{
+		opacity: 0;
+		/* 这里是为了照顾不同宽度的屏幕进行动画 */
+		transform: translateX(100%);
+	}
+	.v-leave-to{
+		opacity: 0;
+		transform: translateX(-100%);
+		/* 组件离场时,不占位置,不然组件切换时,两个组件都是块级元素,都要独占一行,入场组件会最后从下面上来 */
+		position: absolute;
+	}
+	.v-enter-active,
+	.v-leave-active{
+		transition: all 0.5s ease;
+	}
 </style>
