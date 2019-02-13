@@ -32,6 +32,11 @@ Vue.filter('dateFormat',function(date){
   return moment(date).format("YYYY-MM-DD HH-mm-ss")
 })
 
+//注册全局组件,注册后,该组件可以使用标签形式展示在页面上
+//评论功能在多个页面上都有,需要单独抽离出来,注册为全局组件,多次使用
+import comment from './components/comment.vue'
+Vue.component('comment',comment)
+
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
