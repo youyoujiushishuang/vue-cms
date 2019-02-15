@@ -13,13 +13,13 @@
 
         <!-- 图片列表 : 这里用到了图片懒加载技术,在 mint-ui 中有lazy-load组件,但是只有全局注册组件才有用 -->
         <ul class="photoList">
-          <li v-for="(item,index) in list" :key="index">
+          <router-link v-for="(item,index) in list" :key="index" tag="li" :to="'/home/photoInfo/'+item.id">
             <img v-lazy="item.img_url">
             <div class="info">
               <h1 class="info-title">{{item.title}}</h1>
               <div class="info-content">{{item.zhaiyao}}</div>
             </div>
-          </li>
+          </router-link>
         </ul>
     </div>
 </template>
