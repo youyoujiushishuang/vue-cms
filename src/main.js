@@ -37,6 +37,10 @@ Vue.filter('dateFormat',function(date){
 import comment from './components/comment.vue'
 Vue.component('comment',comment)
 
+//图片预加载
+import VuePreview from 'vue-pic-preview'
+Vue.use(VuePreview)
+
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
