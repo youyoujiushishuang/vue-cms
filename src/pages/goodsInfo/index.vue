@@ -65,7 +65,7 @@ export default {
             goodsInfo:{},    //商品的详细信息
             buyCount:1,     //购买数量,双向数据流
             banner:[],  //轮播图信息
-            ballShow:false  //小球是否显示,默认不显示
+            ballShow:false,  //小球是否显示,默认不显示
         }
     },
     created(){
