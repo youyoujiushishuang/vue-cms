@@ -37,6 +37,10 @@ Vue.filter('dateFormat',function(date){
 import comment from './components/comment.vue'
 Vue.component('comment',comment)
 
+//全局注册轮播图组件
+import swipe from './components/swipe.vue'
+Vue.component('swipe',swipe)
+
 //图片预加载
 import VuePreview from 'vue-pic-preview'
 Vue.use(VuePreview)

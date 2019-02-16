@@ -81,18 +81,21 @@ export default {
             h3{
                 font-weight: 700;
                 font-size: 14px;
+                color:#226aff;
             }
             .goods-info{
                 margin: 2px;
                 padding:4px;
-                background-color: #ccc;
+                background-color: #eee;
                 .goods-price{
                     .now{
                         font-size: 13px;
+                        font-weight: 700;
                     }
                     .old{
                         text-decoration: line-through;
                         font-size: 12px;
+                        color:#999;
                     }
                 }
                 .sell{
