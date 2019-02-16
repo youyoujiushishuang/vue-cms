@@ -1,5 +1,11 @@
 <template>
     <div class="goodsInfo-container">
+        <transition name="ballAnimate"
+        @before-enter="beforeEnter"
+        @enter="enter"
+        @after-enter="afterEnter">    
+            <div class="ball" v-show="ballShow" ref="ball"></div>
+        </transition>
         <div class="mui-card">
             <div class="mui-card-content">
                 <div class="mui-card-content-inner">
@@ -27,6 +33,10 @@
                         @click="buyCount++"
                         :disabled="buyCount >= goodsInfo.stock_quantity">
                     </div>
+                    <div class="buyOrCart">
+                        <mt-button type="primary" size="small">立即购买</mt-button>
+                        <mt-button type="danger" size="small" @click="addToCart">加入购物车</mt-button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -51,10 +61,11 @@
 export default {
     data(){
         return {
-            id:this.$route.params.id,
+            id:this.$route.params.id,   //路由携带的商品id
             goodsInfo:{},    //商品的详细信息
-            buyCount:1,
-            banner:[]
+            buyCount:1,     //购买数量,双向数据流
+            banner:[],  //轮播图信息
+            ballShow:false  //小球是否显示,默认不显示
         }
     },
     created(){
@@ -91,7 +102,34 @@ export default {
             if(this.buyCount <= 1){
                 this.buyCount = 1
             }
+        },
+        addToCart(){    //点击加入购物车,完成小球动画
+            //点击加入购物车,让小球显示,再由包裹它的transition标签自动帮助它完成动画
+            //注意,由于组件切换也用到了动画,已经写了v- 的类样式,这个小球也会运用这个动画,所以把之前的类名前缀改一下,让两个动画不要冲突
+            this.ballShow = !this.ballShow
+        },
+        //下面是小球的动画,是半场动画,用钩子函数实现
+        beforeEnter(el){  //动画开始之前,定义好小球动画的起始位置
+            el.style.transform = "translate(0,0)"
+        },
+        enter(el,done){    //动画进行时
+            el.offsetWidth; //必须要写这一句
+            //获取小球和购物车图标在页面上的位置,将横纵坐标相减,得到小球要移动的距离
+            //domObject.getBoundingClientRect() 新出的方法,可以获取元素左上角距离视口左上角的距离,移动要用到dom元素
+            //获取小球的位置
+            const ballDist = this.$refs.ball.getBoundingClientRect()
+            //获取购物车的位置 注意: 获取dom元素不受组件的限制,可以获取到其他组件中的元素
+            const cartDist = document.getElementById('shopCart').getBoundingClientRect()
+            const moveX = cartDist.left - ballDist.left
+            const moveY = cartDist.top - ballDist.top
+            console.log(moveX,moveY);
             
+            el.style.transform = `translate(${moveX}px,${moveY}px)`
+            el.style.transition="all 0.5s cubic-bezier(.4,-0.3,1,.68)";
+            done()
+        },
+        afterEnter(el){   //动画结束之后,将小球隐藏
+            this.ballShow = !this.ballShow
         }
     }
 }
@@ -105,6 +143,16 @@ export default {
     }
 }
 .goodsInfo-container{
+    .ball{
+        width: 15px;
+        height: 15px;
+        background-color: red;
+        position: absolute;
+        border-radius: 50%;
+        z-index: 99;
+        left: 117px;
+        top: 407px;
+    }
     .goods-title{
         color:#226aff;
         font-size: 16px;
@@ -135,9 +183,10 @@ export default {
                 border-left: none;
                 border-right: none;
             } 
-        }
-        
-        
+        } 
+    }
+    .buyOrCart{
+        margin-top: 10px;
     }
     .goods-params{
         font-size: 12px;

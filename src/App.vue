@@ -3,9 +3,9 @@
     <!-- 头部  -->
     <mt-header fixed title="黑马程序员"></mt-header>
     <!-- 页面组件 -->
-    <transition>
+    <transition name="app">
 			<router-view></router-view>
-		</transition>
+	</transition>
     <!-- 底部tabbar 使用的是MUI 中的组件,需要引入MUI中的css样式文件-->
     <nav class="mui-bar mui-bar-tab">
       <!-- 将此处的a标签改造成 router-link标签,路由链接,优点是点击当前连接自动添加高亮类名 router-link-active -->
@@ -20,7 +20,7 @@
 			<router-link class="mui-tab-item1" to="/shopcar">
         <!-- 这里的购物车图标在 mui的扩展图标中,需要引入扩展图标的css文件,还要依赖以字体图标文件,需要将字体图标文件复制到项目文件夹中 -->
 				<span class="mui-icon mui-icon-extra mui-icon-extra-cart">
-          <span class="mui-badge">0</span>
+          <span class="mui-badge" id="shopCart">0</span>
         </span>
 				<span class="mui-tab-label">购物车</span>
 			</router-link>
@@ -45,19 +45,19 @@
 		/* overflow-x: hidden;是为了解决组件切换时有横向滚动条的问题,动画时,两个组件都存在在页面上 */
 		overflow-x: hidden;
 	}
-	.v-enter{
+	.app-enter{
 		opacity: 0;
 		/* 这里是为了照顾不同宽度的屏幕进行动画 */
 		transform: translateX(100%);
 	}
-	.v-leave-to{
+	.app-leave-to{
 		opacity: 0;
 		transform: translateX(-100%);
 		/* 组件离场时,不占位置,不然组件切换时,两个组件都是块级元素,都要独占一行,入场组件会最后从下面上来 */
 		position: absolute;
 	}
-	.v-enter-active,
-	.v-leave-active{
+	.app-enter-active,
+	.app-leave-active{
 		transition: all 0.5s ease;
 	}
 
