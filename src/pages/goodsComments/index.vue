@@ -1,5 +1,14 @@
 <template>
     <div>
-        <h1>商品评论</h1>
+        <comment :artid="id"></comment>
     </div>
 </template>
+<script>
+export default {
+    data(){
+        return {
+            id:this.$route.params.id,   //携带的商品id
+        }
+    }
+}
+</script>

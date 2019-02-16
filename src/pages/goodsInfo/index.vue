@@ -63,7 +63,6 @@ export default {
         getBanner(){    //获取第一个卡片中的轮播图
             this.$http.get('api/getthumimages/'+this.id).then(result=>{
                 if(result.body.status === 0){
-                    console.log(result.body.message);
                     //这里获取到的数据时图片的src,但是封装的swipe组件中使用的是 url
                     //所以在 swipe组件中用: <img :src="item.img || item.src" alt>
                     this.banner = result.body.message

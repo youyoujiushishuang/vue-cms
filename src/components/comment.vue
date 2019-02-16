@@ -57,7 +57,6 @@ export default {
                 //post请求: this.$http.post(请求地址,[请求体参数],[配置])
             this.$http.post('api/postcomment/'+this.artid,{content:this.msg})
             .then(result=>{
-                console.log(result.body);
                 Toast("发表评论成功")
                 //2.将用户评论的内容放在一楼
                 //2.1方法1.手动拼一个数据,加到数据的最前面
