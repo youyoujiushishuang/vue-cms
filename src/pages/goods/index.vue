@@ -1,7 +1,7 @@
 <template>
     <div class="goodsList-container">
         <div class="goods-list">
-            <div class="goods-item" v-for="item in goodsList" :key="item.id">
+            <div class="goods-item" v-for="item in goodsList" :key="item.id" @click="goGoodsInfo(item.id)">
                 <img :src="item.img_url">
                 <h3>{{item.title}}</h3>
                 <div class="goods-info">
@@ -48,6 +48,9 @@ export default {
         getMore(){
             this.pageIndex++
             this.getGoodsList()
+        },
+        goGoodsInfo(id){    //点击每一项商品,进入该商品详情页面,传入商品的id, 没有将标签进行改造,而是直接用 编程式导航
+            this.$router.push('/home/goodsInfo/'+id)
         }
     }
 }
