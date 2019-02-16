@@ -18,12 +18,14 @@
                     </div>
                     <div class="buy-count">
                         <span>购买数量:</span>
+                        <!-- 这里给 - 和 + 都带上范围,超过范围之后,按钮禁用 -->
                         <input type="button" value="-" 
                         @click="buyCount--" 
-                        >
-                        <input type="text" v-model="buyCount">
+                        :disabled="buyCount <= 1">
+                        <input type="text" v-model="buyCount" @change="changeValue">
                         <input type="button" value="+" 
-                        @click="buyCount++">
+                        @click="buyCount++"
+                        :disabled="buyCount >= goodsInfo.stock_quantity">
                     </div>
                 </div>
             </div>
@@ -81,6 +83,15 @@ export default {
         },
         goComment(id){  //点击商品评论
             this.$router.push('/home/goodsComments/'+id)
+        },
+        changeValue(){  //商品数量需要限定在一定的范围里面
+            if(this.buyCount >= this.goodsInfo.stock_quantity){
+                this.buyCount = this.goodsInfo.stock_quantity
+            }
+            if(this.buyCount <= 1){
+                this.buyCount = 1
+            }
+            
         }
     }
 }
