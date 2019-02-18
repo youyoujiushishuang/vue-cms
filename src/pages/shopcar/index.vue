@@ -1,10 +1,10 @@
 <template>
     <div class="shopcar-container">
         <!-- 商品列表区域 -->
-        <div class="mui-card" v-for="item in shopcarGoodsList" :key="item.id">
+        <div class="mui-card" v-for="(item, i) in shopcarGoodsList" :key="item.id">
             <div class="mui-card-content">
                 <div class="mui-card-content-inner">
-                    <mt-switch></mt-switch>
+                    <mt-switch v-model="goodsSelected[item.id]"></mt-switch>
                     <img :src="item.thumb_path">
                     <div class="right_info">
                         <h3>{{item.title}}</h3>
@@ -17,7 +17,7 @@
                                 <input type="button" value="+" 
                                 @click="increase(item.id)">
                             </div>
-                            <a href="#">删除</a>
+                            <a href="#" @click="remove(item.id,i)">删除</a>
                         </div>
                     </div>
                 </div>
@@ -48,7 +48,8 @@ export default {
     data(){
         return {
             shopcarGoodsList:[],    //购物车商品列表信息
-            goodsCount:this.$store.getters.goodsCount   //商品的id与对应的商品购买数量{88:2,89:1}
+            goodsCount:this.$store.getters.goodsCount,   //商品的id与对应的商品购买数量{88:2,89:1}
+            goodsSelected:this.$store.getters.goodsSelected     //商品id与对应商品的勾选状态
         }
     },
     created(){
@@ -79,11 +80,17 @@ export default {
             this.$store.commit('updateCount',{id:id , count:this.goodsCount[id]})
 
         },
-        decrease(id){
+        decrease(id){   //点击商品的减号,减少数量
             //只有在商品数量大于1,才能自减
             this.goodsCount[id] >1 && this.goodsCount[id]--
             //this.goodsCount是这个组件的值,可以自加,但是它是从getters中获取的而getters中的值是不能修改的
             this.$store.commit('updateCount',{id:id , count:this.goodsCount[id]})
+        },
+        remove(id,i){ //点击删除,完成删除功能
+            //要删除页面上渲染出来的商品,所以在shopcarGoodsList:[] 中要删除该商品,由于是按照数组的顺序渲染出来的,可以直接按照索引删除
+            //要在Vuex的数据和本地缓存中删除该商品,这里的shopcarGoodsList数组和state中的数组的顺序不一定是一样的,所以state中不能根据索引删除,而是根据商品id删除
+            this.shopcarGoodsList.splice(i,1)
+            this.$store.commit('removeFromCart',id)
         }
     }
 }

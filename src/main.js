@@ -85,6 +85,16 @@ const store = new Vuex.Store({
       })
       //商品数量更新后,将本地缓存中的数量更新
       localStorage.setItem('cart',JSON.stringify(state.cart))
+    },
+    removeFromCart(state,id){ //在购物车页面点击删除时,在cart和本地缓存中删除对应商品
+      state.cart.some((item,i)=>{
+        if(item.id == id){
+          state.cart.splice(i,1)
+          return true
+        }
+        //更新本地缓存
+        localStorage.setItem('cart',JSON.stringify(state.cart))
+      })
     }
   },
   getters:{ // 将 state 中的数据进行处理在组件中展示出来,注意:这里返回的数据是只读的,不能手动修改
@@ -105,6 +115,14 @@ const store = new Vuex.Store({
         o[item.id] = item.count
       })
       return o
+    },
+    goodsSelected(state){ //为了在页面上显示是否选中该商品,这个数据在异步请求的响应中是没有的,就要从cart中得到数据
+      //创建 {88:true,89:false} 这样的对象,在购物车组件中调用此数据
+      var s = {}
+      state.cart.forEach(item=>{
+        s[item.id] = item.selected
+      })
+      return s
     }
 
   }
