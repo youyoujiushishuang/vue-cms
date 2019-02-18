@@ -45,9 +45,51 @@ Vue.component('swipe',swipe)
 import VuePreview from 'vue-pic-preview'
 Vue.use(VuePreview)
 
+//安装Vuex 包,用来存储全局数据,任何组件都可以调用此数据并对数据进行处理,一旦数据改变,任何运用到此数据的地方都会自动改变
+import Vuex from 'vuex'
+Vue.use(Vuex)
+
+//一进入main.js就从本地缓存中获取数据
+// var shopcart = JSON.parse(localStorage.getItem('cart') || '[]')
+// console.log(JSON.parse(localStorage.getItem('cart') || '[]'));
+
+var shopcart = [{id:88,price:5780, count:2,selected:true}]
+//Vuex安装后,还需要创建一个store仓库来存储数据,传入一个对象
+const store = new Vuex.Store({
+  state:{
+    // cart数组中存储购物车中的数据,每个元素都是一个商品的信息
+    //每个商品信息包含:{id:商品的id, price:商品的单价, count:商品的数量, selected:是否选中此商品}
+    cart:shopcart
+  },
+  mutations:{
+    //想要对state中的数据进行处理都要在 mutations 中进行,里面的方法的第一个参数都是 state,第二个参数是要用到的数据
+    addToCart(state,goodsInfo){
+      let index = state.cart.findIndex(item => item.id == goodsInfo.id)
+      if(index != -1){
+        //购物车中已存在此商品,只改变数量
+        state.cart[index].count += parseInt(goodsInfo.count)
+      }else{
+        //如果购物车中不存在此商品,加把商品添加到购物车中
+        state.cart.push(goodsInfo)
+      }
+      //在刷新页面之后,重新加载 main.js cart中又没有数据了,所以要把数据存储到本地缓存中,
+      localStorage.setItem('cart',JSON.stringify(state.cart))
+    },
+  },
+  getters:{
+    totalCount(state){
+      //计算购物车商品数量,遍历 cart 将count属性值累加
+      let sum = 0
+      state.cart.forEach(item=> sum += item.count)
+      return sum
+    }
+  }
+})
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
   router,
-  render: h => h(App)
+  render: h => h(App),
+  //将Vuex的store仓库挂载到全局vm实例上,不然组件中无法使用store中的数据
+  store
 })

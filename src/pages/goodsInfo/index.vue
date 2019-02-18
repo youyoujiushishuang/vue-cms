@@ -107,6 +107,13 @@ export default {
             //点击加入购物车,让小球显示,再由包裹它的transition标签自动帮助它完成动画
             //注意,由于组件切换也用到了动画,已经写了v- 的类样式,这个小球也会运用这个动画,所以把之前的类名前缀改一下,让两个动画不要冲突
             this.ballShow = !this.ballShow
+            //调用Vuex中的mutations中的方法,第一个参数是方法名,第二个参数是传递的参数
+            this.$store.commit('addToCart',{
+                id:this.id,
+                price:this.goodsInfo.sell_price,
+                count:this.buyCount,
+                selected:true
+            })
         },
         //下面是小球的动画,是半场动画,用钩子函数实现
         beforeEnter(el){  //动画开始之前,定义好小球动画的起始位置

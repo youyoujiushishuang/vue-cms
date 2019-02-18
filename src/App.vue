@@ -20,7 +20,7 @@
 			<router-link class="mui-tab-item1" to="/shopcar">
         <!-- 这里的购物车图标在 mui的扩展图标中,需要引入扩展图标的css文件,还要依赖以字体图标文件,需要将字体图标文件复制到项目文件夹中 -->
 				<span class="mui-icon mui-icon-extra mui-icon-extra-cart">
-          <span class="mui-badge" id="shopCart">0</span>
+          <span class="mui-badge" id="shopCart">{{ $store.getters.totalCount }}</span>
         </span>
 				<span class="mui-tab-label">购物车</span>
 			</router-link>
