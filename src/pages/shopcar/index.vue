@@ -4,7 +4,7 @@
         <div class="mui-card" v-for="(item, i) in shopcarGoodsList" :key="item.id">
             <div class="mui-card-content">
                 <div class="mui-card-content-inner">
-                    <mt-switch v-model="goodsSelected[item.id]"></mt-switch>
+                    <mt-switch v-model="goodsSelected[item.id]" @change="changeGoodsSelected(item.id,goodsSelected[item.id])"></mt-switch>
                     <img :src="item.thumb_path">
                     <div class="right_info">
                         <h3>{{item.title}}</h3>
@@ -91,6 +91,11 @@ export default {
             //要在Vuex的数据和本地缓存中删除该商品,这里的shopcarGoodsList数组和state中的数组的顺序不一定是一样的,所以state中不能根据索引删除,而是根据商品id删除
             this.shopcarGoodsList.splice(i,1)
             this.$store.commit('removeFromCart',id)
+        },
+        changeGoodsSelected(id,status){    //修改商品的选中状态,一点击,页面上的状态就自己改变了,但是state和本地缓存的没有变
+            //status是改变之后的状态
+            this.$store.commit('changeGoodsSelectedFromCart',{id,selected:status})
+            
         }
     }
 }

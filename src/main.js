@@ -95,6 +95,16 @@ const store = new Vuex.Store({
         //更新本地缓存
         localStorage.setItem('cart',JSON.stringify(state.cart))
       })
+    },
+    changeGoodsSelectedFromCart(state,goodsInfo){
+      state.cart.some(item=>{
+        if(item.id == goodsInfo.id){
+          item.selected = goodsInfo.selected
+          return true
+        }
+        //更新本地缓存
+        localStorage.setItem('cart',JSON.stringify(state.cart))
+      })
     }
   },
   getters:{ // 将 state 中的数据进行处理在组件中展示出来,注意:这里返回的数据是只读的,不能手动修改
