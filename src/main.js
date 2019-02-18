@@ -75,6 +75,17 @@ const store = new Vuex.Store({
       //在刷新页面之后,重新加载 main.js cart中又没有数据了,所以要把数据存储到本地缓存中,
       localStorage.setItem('cart',JSON.stringify(state.cart))
     },
+    updateCount(state,goodsInfo){  //购物车页面点击加号时,修改state和本地缓存的值
+      //使用some方法在数组中找到对应商品id的那一项,return true 就结束循环
+      state.cart.some(item=> {
+        if(item.id == goodsInfo.id){
+          item.count = goodsInfo.count
+          return true
+        }
+      })
+      //商品数量更新后,将本地缓存中的数量更新
+      localStorage.setItem('cart',JSON.stringify(state.cart))
+    }
   },
   getters:{ // 将 state 中的数据进行处理在组件中展示出来,注意:这里返回的数据是只读的,不能手动修改
     totalCount(state){  //计算购物车商品数量,遍历 cart 将count属性值累加
@@ -86,6 +97,14 @@ const store = new Vuex.Store({
       var sum_price = 0
       state.cart.forEach(item=> sum_price += item.count * item.price)
       return sum_price
+    },
+    goodsCount(state){ //为了展示购物车中每项商品的数量,将state中的cart数组中的商品id和商品的数量组合成一个对象的属性
+      //{ 88:2 , 89:3}
+      var o = {}
+      state.cart.forEach(item=>{
+        o[item.id] = item.count
+      })
+      return o
     }
 
   }

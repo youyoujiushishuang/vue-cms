@@ -11,9 +11,11 @@
                         <div class="info">
                             <span class="now_price">¥{{item.sell_price}}</span>
                             <div class="num_box">
-                                <input type="button" value="-">
-                                <input type="text">
-                                <input type="button" value="+" >
+                                <input type="button" value="-"
+                                @click="decrease(item.id)">
+                                <input type="text" :value="goodsCount[item.id]">
+                                <input type="button" value="+" 
+                                @click="increase(item.id)">
                             </div>
                             <a href="#">删除</a>
                         </div>
@@ -45,7 +47,8 @@
 export default {
     data(){
         return {
-            shopcarGoodsList:[]
+            shopcarGoodsList:[],    //购物车商品列表信息
+            goodsCount:this.$store.getters.goodsCount   //商品的id与对应的商品购买数量{88:2,89:1}
         }
     },
     created(){
@@ -67,6 +70,20 @@ export default {
                     this.shopcarGoodsList = result.body.message
                 }
             })
+        },
+        increase(id){ //点击商品的加号,增加数量
+            //点击加号,该商品数量加1,在实现页面的数据改变之后,还要修改Vuex中的数据和本地缓存中的数据
+            //this.goodsCount[id] 是goodsCount这个对象中找到属性名为 id(商品id) 的属性值(商品数量)
+            this.goodsCount[id]++
+            //this.goodsCount是这个组件的值,可以自加,但是它是从getters中获取的而getters中的值是不能修改的
+            this.$store.commit('updateCount',{id:id , count:this.goodsCount[id]})
+
+        },
+        decrease(id){
+            //只有在商品数量大于1,才能自减
+            this.goodsCount[id] >1 && this.goodsCount[id]--
+            //this.goodsCount是这个组件的值,可以自加,但是它是从getters中获取的而getters中的值是不能修改的
+            this.$store.commit('updateCount',{id:id , count:this.goodsCount[id]})
         }
     }
 }
