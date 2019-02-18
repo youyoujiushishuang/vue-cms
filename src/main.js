@@ -50,10 +50,10 @@ import Vuex from 'vuex'
 Vue.use(Vuex)
 
 //一进入main.js就从本地缓存中获取数据
-// var shopcart = JSON.parse(localStorage.getItem('cart') || '[]')
+var shopcart = JSON.parse(localStorage.getItem('cart') || '[]')
 // console.log(JSON.parse(localStorage.getItem('cart') || '[]'));
 
-var shopcart = [{id:88,price:5780, count:2,selected:true}]
+// var shopcart = [{id:88,price:5780, count:2,selected:true}]
 //Vuex安装后,还需要创建一个store仓库来存储数据,传入一个对象
 const store = new Vuex.Store({
   state:{
@@ -76,13 +76,18 @@ const store = new Vuex.Store({
       localStorage.setItem('cart',JSON.stringify(state.cart))
     },
   },
-  getters:{
-    totalCount(state){
-      //计算购物车商品数量,遍历 cart 将count属性值累加
+  getters:{ // 将 state 中的数据进行处理在组件中展示出来,注意:这里返回的数据是只读的,不能手动修改
+    totalCount(state){  //计算购物车商品数量,遍历 cart 将count属性值累加
       let sum = 0
       state.cart.forEach(item=> sum += item.count)
       return sum
+    },
+    totalPrice(state){
+      var sum_price = 0
+      state.cart.forEach(item=> sum_price += item.count * item.price)
+      return sum_price
     }
+
   }
 })
 /* eslint-disable no-new */
