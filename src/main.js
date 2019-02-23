@@ -49,6 +49,10 @@ Vue.use(VuePreview)
 import Vuex from 'vuex'
 Vue.use(Vuex)
 
+//安装 vue-scroller 包进行上拉加载和下拉刷新
+import VueScroller from 'vue-scroller'
+Vue.use(VueScroller)
+
 //一进入main.js就从本地缓存中获取数据
 var shopcart = JSON.parse(localStorage.getItem('cart') || '[]')
 // console.log(JSON.parse(localStorage.getItem('cart') || '[]'));
