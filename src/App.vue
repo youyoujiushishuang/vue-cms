@@ -1,7 +1,9 @@
 <template>
   <div id="app">
     <!-- 头部  -->
-    <mt-header fixed title="黑马程序员"></mt-header>
+    <mt-header fixed title="黑马程序员">
+		<mt-button v-show="showBackBtn" icon="back" slot="left" @click="$router.go(-1)">返回</mt-button>
+	</mt-header>
     <!-- 页面组件 -->
     <transition name="app">
 			<router-view></router-view>
@@ -34,7 +36,24 @@
 
 <script>
 	export default {
-		name: 'App'
+		name: 'App',
+		data(){
+			return {
+				//这里移动要直接判断是否在/home页面,而不能直接设置为false,否则在其他页面进行刷新时,还是false,不显示
+				showBackBtn: this.$route.path != '/home'
+			}
+		},
+		watch:{	//监听路由的变化
+			$route(to,from){
+				/* if(to.path == '/home'){
+					this.showBackBtn = false
+				} else{
+					this.showBackBtn = true
+				} */
+				//上面的if判断转为一行代码
+				this.showBackBtn = to.path != '/home'
+			}
+		}
 	}
 </script>
 
