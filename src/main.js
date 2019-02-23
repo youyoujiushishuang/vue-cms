@@ -110,12 +110,20 @@ const store = new Vuex.Store({
   getters:{ // 将 state 中的数据进行处理在组件中展示出来,注意:这里返回的数据是只读的,不能手动修改
     totalCount(state){  //计算购物车商品数量,遍历 cart 将count属性值累加
       let sum = 0
-      state.cart.forEach(item=> sum += item.count)
+      state.cart.forEach(item=> {
+        if(item.selected){
+          sum += item.count
+        }
+      })
       return sum
     },
     totalPrice(state){
       var sum_price = 0
-      state.cart.forEach(item=> sum_price += item.count * item.price)
+      state.cart.forEach(item=> {
+        if(item.selected){
+          sum_price += item.count * item.price
+        }
+      })
       return sum_price
     },
     goodsCount(state){ //为了展示购物车中每项商品的数量,将state中的cart数组中的商品id和商品的数量组合成一个对象的属性
