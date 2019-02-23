@@ -41,7 +41,8 @@ export default {
         this.getGoodsList()
     },
     mounted(){
-        // this.$refs.sc.triggerPullToRefresh()
+        //手动下拉刷新
+        this.$refs.sc.triggerPullToRefresh()
     },
     methods:{
         getGoodsList(refresh){
